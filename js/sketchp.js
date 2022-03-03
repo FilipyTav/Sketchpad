@@ -1,36 +1,36 @@
-// As soon as the page fully loads, create a 16x16 grid of divs inside the canvas container
-window.addEventListener("load", generate_canvas(256));
+// As soon as the page fully loads calls the main function
+window.addEventListener("load", main());
 
 // Creates a canvas with (num) squares divs
 function generate_canvas(num) {
-    let container = document.querySelector(".container");
+    let canvas = document.querySelector(".canvas");
+
+    let items_per_column = Math.sqrt(num);
 
     // Creates divs based on the argument number
     for (let i = 0; i < num; i++) {
         let grid_item = document.createElement("div");
 
         grid_item.classList.toggle("grid_item");
-        //   grid_item.textContent = `${i + 1}`;
-        //   grid_item.setAttribute("style", `height: 50px; width: 50px`);
+        grid_item.setAttribute(
+            "style",
+            `height: ${500 / items_per_column}px;
+             width: ${500 / items_per_column}px`
+        );
 
-        container.appendChild(grid_item);
+        canvas.appendChild(grid_item);
     }
 
-    let items_per_column = Math.sqrt(num);
-
-    // The container is a square. This determines the sides' size
-    let size = 10 * items_per_column;
-
-    // Changes the container size and grid layout based on the argument number
-    container.setAttribute(
+    // Changes the canvas size and grid layout based on the argument number
+    canvas.setAttribute(
         "style",
-        `grid-template-columns: repeat(${items_per_column}, 1fr); height: ${size}px; width: ${size}px`
+        `grid-template-columns: repeat(${items_per_column}, 1fr)`
     );
 
     draw();
 }
 
-// Attach event listeners and change the style of each div inside the container
+// Attach event listeners and change the style of each div inside the canvas
 function draw() {
     let grid_items = document.querySelectorAll(".grid_item");
     grid_items = Array.from(grid_items);
@@ -57,7 +57,7 @@ function manage_top_buttons() {
 // Uhmm, it clears the canvas
 // by removing the class added to them when drawing
 function clear_canvas() {
-    let rem = document.querySelectorAll(".container .grid_item");
+    let rem = document.querySelectorAll(".canvas .grid_item");
     rem = Array.from(rem);
 
     rem.forEach((pixel) => pixel.classList.remove("shine"));
@@ -69,7 +69,7 @@ function resize_canvas() {
         "How many squares per side on the new canvas? (Max. 100)"
     );
 
-    switch (check_if_valid_number(squares_per_side, 0, 100)) {
+    switch (check_if_valid_number(squares_per_side, 1, 100)) {
         case true:
             break;
 
@@ -80,15 +80,15 @@ function resize_canvas() {
             return "Problem with resize_canvas() function";
     }
 
-    let container = document.querySelector(".container");
+    let canvas = document.querySelector(".canvas");
 
     let grid_items = Array.from(document.querySelectorAll(".grid_item"));
     let grid_item = grid_items[0];
 
     // Removes all pixels from the previous canvas
     switch (true) {
-        case container.contains(grid_item):
-            purge_all_children(container);
+        case canvas.contains(grid_item):
+            purge_all_children(canvas);
             break;
 
         default:
@@ -112,10 +112,10 @@ function check_if_valid_number(number, min, max) {
         case num > max:
             return false;
 
-        case num <= min:
+        case num < min:
             return false;
 
-        case num > min && num <= max:
+        case num >= min && num <= max:
             return true;
 
         default:
@@ -130,4 +130,10 @@ function purge_all_children(parent) {
     }
 }
 
-manage_top_buttons();
+function main() {
+    // Create a 16x16 grid of divs inside the canvas when loading the page
+    generate_canvas(256);
+
+    // Activate top buttons
+    manage_top_buttons();
+}
