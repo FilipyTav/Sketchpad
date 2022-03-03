@@ -4,6 +4,23 @@ body {
     border: 0;
 }
 
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 50px;
+}
+
+.btn {
+    background: rgb(38, 148, 211);
+    padding: 8px 24px;
+    border: none;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
 .container {
     display: grid;
     border: 1px solid red;
