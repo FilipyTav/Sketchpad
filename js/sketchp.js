@@ -1,21 +1,21 @@
 // As soon as the page fully loads calls the main function
-window.addEventListener("load", main());
+window.addEventListener('load', main());
 
 // Creates a canvas with (num) squares divs
 function generate_canvas(num) {
-    let canvas = document.querySelector(".canvas");
+    let canvas = document.querySelector('.canvas');
 
     let items_per_column = Math.sqrt(num);
 
     // Creates divs based on the argument number
     for (let i = 0; i < num; i++) {
-        let grid_item = document.createElement("div");
+        let grid_item = document.createElement('div');
 
-        grid_item.classList.toggle("grid_item");
+        grid_item.classList.toggle('grid_item');
         grid_item.setAttribute(
-            "style",
+            'style',
             `height: ${500 / items_per_column}px;
-             width: ${500 / items_per_column}px`
+             width: ${500 / items_per_column}px`,
         );
 
         canvas.appendChild(grid_item);
@@ -23,8 +23,8 @@ function generate_canvas(num) {
 
     // Changes the canvas size and grid layout based on the argument number
     canvas.setAttribute(
-        "style",
-        `grid-template-columns: repeat(${items_per_column}, 1fr)`
+        'style',
+        `grid-template-columns: repeat(${items_per_column}, 1fr)`,
     );
 
     draw();
@@ -32,41 +32,41 @@ function generate_canvas(num) {
 
 // Attach event listeners and change the style of each div inside the canvas
 function draw() {
-    let grid_items = document.querySelectorAll(".grid_item");
+    let grid_items = document.querySelectorAll('.grid_item');
     grid_items = Array.from(grid_items);
 
     grid_items.forEach((g_item) => {
-        g_item.addEventListener("mouseover", change_color);
+        g_item.addEventListener('mouseover', change_color);
     });
 }
 
 // Changes the color of the divs by adding a class to it
 function change_color(square) {
-    square.target.classList.toggle("shine");
+    square.target.classList.toggle('shine');
 }
 
 // Adds functionality to the top buttons
 function manage_top_buttons() {
-    let clear_btn = document.querySelector(".clear");
-    let sizing_btn = document.querySelector(".sizing");
+    let clear_btn = document.querySelector('.clear');
+    let sizing_btn = document.querySelector('.sizing');
 
-    clear_btn.addEventListener("click", clear_canvas);
-    sizing_btn.addEventListener("click", resize_canvas);
+    clear_btn.addEventListener('click', clear_canvas);
+    sizing_btn.addEventListener('click', resize_canvas);
 }
 
 // Uhmm, it clears the canvas
 // by removing the class added to them when drawing
 function clear_canvas() {
-    let rem = document.querySelectorAll(".canvas .grid_item");
+    let rem = document.querySelectorAll('.canvas .grid_item');
     rem = Array.from(rem);
 
-    rem.forEach((pixel) => pixel.classList.remove("shine"));
+    rem.forEach((pixel) => pixel.classList.remove('shine'));
 }
 
 // Resizes canvas based on user input
 function resize_canvas() {
     let squares_per_side = prompt(
-        "How many squares per side on the new canvas? (Max. 100)"
+        'How many squares per side on the new canvas? (Max. 100)',
     );
 
     switch (check_if_valid_number(squares_per_side, 1, 100)) {
@@ -74,15 +74,15 @@ function resize_canvas() {
             break;
 
         case false:
-            alert("Not possible");
+            alert('Not possible');
             return;
         default:
-            return "Problem with resize_canvas() function";
+            return 'Problem with resize_canvas() function';
     }
 
-    let canvas = document.querySelector(".canvas");
+    let canvas = document.querySelector('.canvas');
 
-    let grid_items = Array.from(document.querySelectorAll(".grid_item"));
+    let grid_items = Array.from(document.querySelectorAll('.grid_item'));
     let grid_item = grid_items[0];
 
     // Removes all pixels from the previous canvas
@@ -92,7 +92,7 @@ function resize_canvas() {
             break;
 
         default:
-            return "Problem when resize_canvas() function";
+            return 'Problem when resize_canvas() function';
     }
 
     squares_per_side = Number(squares_per_side);
@@ -119,7 +119,7 @@ function check_if_valid_number(number, min, max) {
             return true;
 
         default:
-            return "Problem with check_if_valid_number() function";
+            return 'Problem with check_if_valid_number() function';
     }
 }
 
