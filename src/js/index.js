@@ -1,17 +1,16 @@
 import "../styles/sketchp.css";
+import { DOM_el } from "./DOM_el";
 
 // As soon as the page fully loads calls the main function
 window.addEventListener("load", main());
 
 // Creates a canvas with (num) squares divs
 function generate_canvas(num) {
-    let canvas = document.querySelector(".canvas");
-
     let items_per_column = Math.sqrt(num);
 
     // Creates divs based on the argument number
     for (let i = 0; i < num; i++) {
-        let grid_item = document.createElement("div");
+        const grid_item = DOM_el.new_el("div");
 
         grid_item.classList.toggle("grid_item");
         grid_item.setAttribute(
@@ -20,11 +19,11 @@ function generate_canvas(num) {
              width: ${500 / items_per_column}px`,
         );
 
-        canvas.appendChild(grid_item);
+        DOM_el.canvas.appendChild(grid_item);
     }
 
     // Changes the canvas size and grid layout based on the argument number
-    canvas.setAttribute(
+    DOM_el.canvas.setAttribute(
         "style",
         `grid-template-columns: repeat(${items_per_column}, 1fr)`,
     );
@@ -34,10 +33,7 @@ function generate_canvas(num) {
 
 // Attach event listeners and change the style of each div inside the canvas
 function draw() {
-    let grid_items = document.querySelectorAll(".grid_item");
-    grid_items = Array.from(grid_items);
-
-    grid_items.forEach((g_item) => {
+    DOM_el.grid_items().forEach((g_item) => {
         g_item.addEventListener("mouseover", change_color);
     });
 }
@@ -49,20 +45,14 @@ function change_color(square) {
 
 // Adds functionality to the top buttons
 function manage_top_buttons() {
-    let clear_btn = document.querySelector(".clear");
-    let sizing_btn = document.querySelector(".sizing");
-
-    clear_btn.addEventListener("click", clear_canvas);
-    sizing_btn.addEventListener("click", resize_canvas);
+    DOM_el.clear_btn.addEventListener("click", clear_canvas);
+    DOM_el.sizing_btn.addEventListener("click", resize_canvas);
 }
 
 // Uhmm, it clears the canvas
 // by removing the class added to them when drawing
 function clear_canvas() {
-    let rem = document.querySelectorAll(".canvas .grid_item");
-    rem = Array.from(rem);
-
-    rem.forEach((pixel) => pixel.classList.remove("shine"));
+    DOM_el.grid_items().forEach((pixel) => pixel.classList.remove("shine"));
 }
 
 // Resizes canvas based on user input
@@ -82,15 +72,12 @@ function resize_canvas() {
             return "Problem with resize_canvas() function";
     }
 
-    let canvas = document.querySelector(".canvas");
-
-    let grid_items = Array.from(document.querySelectorAll(".grid_item"));
-    let grid_item = grid_items[0];
+    let grid_item = DOM_el.grid_items()[0];
 
     // Removes all pixels from the previous canvas
     switch (true) {
-        case canvas.contains(grid_item):
-            purge_all_children(canvas);
+        case DOM_el.canvas.contains(grid_item):
+            purge_all_children(DOM_el.canvas);
             break;
 
         default:
@@ -105,7 +92,7 @@ function resize_canvas() {
 
 // Checks if the user input is a valid number based on min and max values
 function check_if_valid_number(number, min, max) {
-    num = Number(number);
+    const num = Number(number);
 
     switch (true) {
         case isNaN(number):
