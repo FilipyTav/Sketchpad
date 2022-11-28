@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     border: 0;
-    background: black;
+    background-color: white;
 }
 
 .header {
@@ -21,6 +21,31 @@ body {
 
 .btn:hover {
     cursor: pointer;
+}
+
+.sizing {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.3rem;
+}
+
+.sizing label {
+    align-self: center;
+}
+
+.sizing .io {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+}
+
+#sizes {
+    display: flex;
+    justify-content: space-between;
+    /* min-width: fit-content; */
+    /* width: 300px; */
 }
 
 .canvas {

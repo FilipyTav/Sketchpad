@@ -46,7 +46,7 @@ function change_color(square) {
 // Adds functionality to the top buttons
 function manage_top_buttons() {
     DOM_el.clear_btn.addEventListener("click", clear_canvas);
-    DOM_el.sizing_btn.addEventListener("click", resize_canvas);
+    DOM_el.sizing_input.addEventListener("input", resize_canvas);
 }
 
 // Uhmm, it clears the canvas
@@ -57,9 +57,7 @@ function clear_canvas() {
 
 // Resizes canvas based on user input
 function resize_canvas() {
-    let squares_per_side = prompt(
-        "How many squares per side on the new canvas? (Max. 100)",
-    );
+    let squares_per_side = DOM_el.sizing_input.value;
 
     switch (check_if_valid_number(squares_per_side, 1, 100)) {
         case true:
@@ -72,7 +70,10 @@ function resize_canvas() {
             return "Problem with resize_canvas() function";
     }
 
-    let grid_item = DOM_el.grid_items()[0];
+    // Changes the output to display the selected value
+    DOM_el.sizing_output.value = DOM_el.sizing_input.value;
+
+    const grid_item = DOM_el.grid_items()[0];
 
     // Removes all pixels from the previous canvas
     switch (true) {
