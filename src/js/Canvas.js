@@ -19,8 +19,7 @@ const Canvas = (function () {
     };
 
     // Changes the size of each pixel according to the screen size
-    const adapt_pixels = (element) => {
-        const { height, width, style } = info();
+    const adapt_pixels = (element, { height, width, style }) => {
         const items_per_column = DOM_el.sizing_output.value;
 
         const adapt = (el) => {
@@ -46,12 +45,14 @@ const Canvas = (function () {
     const generate = (num) => {
         const items_per_column = Math.sqrt(num);
 
+        const details = info();
+
         // Creates divs based on the argument number
         for (let i = 0; i < num; i++) {
             const grid_item = DOM_el.new_el("div");
 
             grid_item.classList.toggle("grid_item");
-            adapt_pixels(grid_item);
+            adapt_pixels(grid_item, details);
 
             DOM_el.canvas.appendChild(grid_item);
         }
@@ -84,40 +85,56 @@ const Canvas = (function () {
         square.target.classList.toggle("shine");
     };
 
+    // declare an array for all the timeOuts
+    const resize_time_outs = {};
+
+    // to clear them all, just call this
+    const clear_resize_tm_ot = () => {
+        for (const id in resize_time_outs) {
+            clearTimeout(resize_time_outs[id]);
+        }
+    };
+
     // Resizes canvas based on user input
     const resize = () => {
-        let squares_per_side = DOM_el.sizing_input.value;
-
-        switch (check_if_valid_number(squares_per_side, 1, 100)) {
-            case true:
-                break;
-
-            case false:
-                alert("Not possible");
-                return;
-            default:
-                return "Problem with resize_canvas() function";
-        }
+        if (resize_time_outs["unique_id"]) clear_resize_tm_ot();
 
         // Changes the output to display the selected value
         DOM_el.sizing_output.value = DOM_el.sizing_input.value;
 
-        const grid_item = DOM_el.grid_items()[0];
+        const activate = () => {
+            let squares_per_side = DOM_el.sizing_input.value;
 
-        // Removes all pixels from the previous canvas
-        switch (true) {
-            case DOM_el.canvas.contains(grid_item):
-                purge_all_children(DOM_el.canvas);
-                break;
+            switch (check_if_valid_number(squares_per_side, 1, 100)) {
+                case true:
+                    break;
 
-            default:
-                return "Problem when resize_canvas() function";
-        }
+                case false:
+                    alert("Not possible");
+                    return;
+                default:
+                    return "Problem with resize_canvas() function";
+            }
 
-        squares_per_side = Number(squares_per_side);
+            // Removes all pixels from the previous canvas
+            switch (true) {
+                case DOM_el.canvas.contains(DOM_el.first_grid_item()):
+                    purge_all_children(DOM_el.canvas);
+                    break;
 
-        // Creates a new, resized canvas
-        Canvas.generate(squares_per_side ** 2);
+                default:
+                    return "Problem when resize_canvas() function";
+            }
+
+            squares_per_side = Number(squares_per_side);
+
+            // Creates a new, resized canvas
+            Canvas.generate(squares_per_side ** 2);
+        };
+
+        resize_time_outs["unique_id"] = setTimeout(() => {
+            activate();
+        }, 1000);
     };
 
     // Checks if the user input is a valid number based on min and max values
@@ -148,7 +165,7 @@ const Canvas = (function () {
         DOM_el.grid_items().forEach((pixel) => pixel.classList.remove("shine"));
     };
 
-    return { generate, clear, resize, adapt_pixels };
+    return { info, generate, clear, resize, adapt_pixels };
 })();
 
 export { Canvas };

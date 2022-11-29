@@ -5,6 +5,10 @@ const DOM_el = (function () {
         return Array.from(document.querySelectorAll(".grid_item"));
     };
 
+    const first_grid_item = () => {
+        return document.querySelector(".grid_item");
+    };
+
     const clear_btn = document.querySelector(".clear");
     const sizing_input = document.querySelector(".sizing_input");
     const sizing_output = document.querySelector(".sizing_output");
@@ -16,6 +20,7 @@ const DOM_el = (function () {
     return {
         canvas,
         grid_items,
+        first_grid_item,
         clear_btn,
         sizing_input,
         sizing_output,

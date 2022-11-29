@@ -17,7 +17,11 @@ const main = () => {
     manage_top_buttons();
 };
 
-window.addEventListener("resize", () => Canvas.adapt_pixels(), true);
+window.addEventListener(
+    "resize",
+    () => Canvas.adapt_pixels(null, Canvas.info()),
+    true,
+);
 
 // As soon as the page fully loads calls the main function
 window.addEventListener("load", main);
