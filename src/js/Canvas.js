@@ -1,9 +1,28 @@
 import { DOM_el } from "./DOM_el";
 
 const Canvas = (function () {
+    const info = () => {
+        const canv_rect = DOM_el.canvas.getBoundingClientRect();
+
+        const height = canv_rect.height;
+        const width = canv_rect.width;
+
+        const style = window.getComputedStyle
+            ? getComputedStyle(DOM_el.canvas, null)
+            : DOM_el.canvas.currentStyle;
+
+        return {
+            height,
+            width,
+            style,
+        };
+    };
+
     // Creates a canvas with (num) squares divs
     const generate = (num) => {
         const items_per_column = Math.sqrt(num);
+
+        const { height, width, style } = info();
 
         // Creates divs based on the argument number
         for (let i = 0; i < num; i++) {
@@ -12,8 +31,14 @@ const Canvas = (function () {
             grid_item.classList.toggle("grid_item");
             grid_item.setAttribute(
                 "style",
-                `height: ${500 / items_per_column}px;
-             width: ${500 / items_per_column}px`,
+                `height: ${
+                    (height - parseInt(style.borderTopWidth) * 2) /
+                    items_per_column
+                }px;
+             width: ${
+                 (width - parseInt(style.borderLeftWidth) * 2) /
+                 items_per_column
+             }px`,
             );
 
             DOM_el.canvas.appendChild(grid_item);

@@ -1,7 +1,11 @@
-body {
+* {
     margin: 0;
     padding: 0;
     border: 0;
+    box-sizing: border-box;
+}
+
+body {
     background-color: white;
 }
 
@@ -44,14 +48,13 @@ body {
 #sizes {
     display: flex;
     justify-content: space-between;
-    /* min-width: fit-content; */
-    /* width: 300px; */
 }
 
 .canvas {
-    height: 500px;
-    width: 500px;
+    height: 80vw;
+    width: 80vw;
     display: grid;
+    align-items: center;
     border: 20px solid purple;
     background: #eee;
     grid-template-columns: repeat(4, 1fr);
