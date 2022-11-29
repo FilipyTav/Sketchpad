@@ -51,8 +51,8 @@ body {
 }
 
 .canvas {
-    height: 80vw;
-    width: 80vw;
+    height: 90vw;
+    width: 90vw;
     display: grid;
     align-items: center;
     border: 20px solid purple;
@@ -68,12 +68,31 @@ body {
     height: 1px;
 }
 
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-flow: column nowrap;
+    gap: 1rem;
+}
+
 .center {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    flex-flow: column nowrap;
+    gap: 1rem;
 }
 
 .shine {
     background: cadetblue;
+}
+
+@media (min-width: 40em) {
+    .canvas {
+        height: 90vh;
+        width: 90vh;
+    }
 }

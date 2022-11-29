@@ -18,18 +18,13 @@ const Canvas = (function () {
         };
     };
 
-    // Creates a canvas with (num) squares divs
-    const generate = (num) => {
-        const items_per_column = Math.sqrt(num);
-
+    // Changes the size of each pixel according to the screen size
+    const adapt_pixels = (element) => {
         const { height, width, style } = info();
+        const items_per_column = DOM_el.sizing_output.value;
 
-        // Creates divs based on the argument number
-        for (let i = 0; i < num; i++) {
-            const grid_item = DOM_el.new_el("div");
-
-            grid_item.classList.toggle("grid_item");
-            grid_item.setAttribute(
+        const adapt = (el) => {
+            el.setAttribute(
                 "style",
                 `height: ${
                     (height - parseInt(style.borderTopWidth) * 2) /
@@ -40,6 +35,23 @@ const Canvas = (function () {
                  items_per_column
              }px`,
             );
+        };
+
+        element
+            ? adapt(element)
+            : DOM_el.grid_items().forEach((item) => adapt(item));
+    };
+
+    // Creates a canvas with (num) squares divs
+    const generate = (num) => {
+        const items_per_column = Math.sqrt(num);
+
+        // Creates divs based on the argument number
+        for (let i = 0; i < num; i++) {
+            const grid_item = DOM_el.new_el("div");
+
+            grid_item.classList.toggle("grid_item");
+            adapt_pixels(grid_item);
 
             DOM_el.canvas.appendChild(grid_item);
         }
@@ -136,7 +148,7 @@ const Canvas = (function () {
         DOM_el.grid_items().forEach((pixel) => pixel.classList.remove("shine"));
     };
 
-    return { generate, clear, resize };
+    return { generate, clear, resize, adapt_pixels };
 })();
 
 export { Canvas };
