@@ -2,6 +2,7 @@ import "../styles/sketchp.css";
 
 import { Canvas } from "./Canvas";
 import { DOM_el } from "./DOM_el";
+import { Options } from "./Options";
 
 // Adds functionality to the top buttons
 const manage_top_buttons = () => {

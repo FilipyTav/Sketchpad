@@ -17,6 +17,22 @@ const DOM_el = (function () {
         return document.createElement(element);
     };
 
+    const options = (function () {
+        const container = document.querySelector(".options");
+
+        const items = container.querySelectorAll(".option");
+
+        const open_btn = document.querySelector("button.open_options");
+        const close_btn = container.querySelector("button.close");
+
+        return {
+            container,
+            items,
+            open_btn,
+            close_btn,
+        };
+    })();
+
     return {
         canvas,
         grid_items,
@@ -25,6 +41,7 @@ const DOM_el = (function () {
         sizing_input,
         sizing_output,
         new_el,
+        options,
     };
 })();
 

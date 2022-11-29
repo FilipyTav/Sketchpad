@@ -9,6 +9,14 @@ body {
     background-color: white;
 }
 
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+/* Navbar starts here */
+
 .header {
     display: flex;
     justify-content: space-around;
@@ -27,28 +35,44 @@ body {
     cursor: pointer;
 }
 
-.sizing {
+.options {
+    background: #888;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    /* min-width: 40vw; */
+    min-height: 100%;
+
+    max-width: 0;
+
+    transition: max-width 0.5s ease-in-out;
+
+    overflow: hidden;
+
     display: flex;
     flex-flow: column nowrap;
-    gap: 0.3rem;
-}
-
-.sizing label {
-    align-self: center;
-}
-
-.sizing .io {
-    display: flex;
-    justify-content: center;
     align-items: center;
 
-    gap: 5px;
+    gap: 4rem;
 }
 
-#sizes {
-    display: flex;
-    justify-content: space-between;
+.options.active {
+    max-width: 200vw;
 }
+
+.header .open_options,
+.header .close {
+    width: 50px;
+}
+
+.options .option {
+    margin: 0 15vw;
+}
+
+/* Navbar ends here */
+
+/* Canvas starts here */
 
 .canvas {
     height: 90vw;
@@ -85,6 +109,35 @@ body {
     flex-flow: column nowrap;
     gap: 1rem;
 }
+
+/* Canvas ends here */
+
+/* Sizing input starts here */
+
+.sizing {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.3rem;
+}
+
+.sizing label {
+    align-self: center;
+}
+
+.sizing .io {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+}
+
+#sizes {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Sizing input ends here */
 
 .shine {
     background: cadetblue;
