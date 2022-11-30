@@ -58,6 +58,8 @@ const Canvas = (function () {
             grid_item.classList.toggle("grid_item");
             adapt_pixels(grid_item, details);
 
+            grid_item.style.setProperty("--bg_color", "royalblue");
+
             DOM_el.canvas.appendChild(grid_item);
         }
 
@@ -70,7 +72,31 @@ const Canvas = (function () {
         draw();
     };
 
-    const drawing_styles = { color: "", rainbow: "", gray: "", random: "" };
+    const drawing_styles = {
+        color: (function () {
+            let value = "#5f9ea0";
+
+            return {
+                get value() {
+                    return value;
+                },
+                set value(new_value) {
+                    value = new_value;
+                },
+
+                get config() {
+                    return (pixel) =>
+                        pixel.style.setProperty(
+                            "--bg_color",
+                            value.toLowerCase(),
+                        );
+                },
+            };
+        })(),
+        rainbow: "",
+        gray: "",
+        random: "",
+    };
 
     let current_style = ["color"];
 
@@ -90,10 +116,42 @@ const Canvas = (function () {
         }
     };
 
+    const hex_to_rgb = (hex) => {
+        var bigint = parseInt(hex, 16);
+        var r = (bigint >> 16) & 255;
+        var g = (bigint >> 8) & 255;
+        var b = bigint & 255;
+
+        return [r, g, b].join();
+    };
+
+    const rgba_2_hex = (rgba) =>
+        `#${rgba
+            .match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/)
+            .slice(1)
+            .map((n, i) =>
+                (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n))
+                    .toString(16)
+                    .padStart(2, "0")
+                    .replace("NaN", ""),
+            )
+            .join("")}`;
+
     // Changes the color of the divs by adding a class to it
-    const change_color = (square, color) => {
-        square.classList.toggle("shine");
-        square.style.setProperty("--bg_color", color);
+    const change_color = (square, style) => {
+        const details = getComputedStyle(square);
+
+        const bg = rgba_2_hex(details.getPropertyValue("background-color"));
+
+        style.config(square);
+
+        if (square.classList.contains("shine") && bg === style.value) {
+            square.classList.toggle("shine");
+        } else if (square.classList.contains("shine") && bg !== style.value) {
+            square.style.setProperty("--bg_color", style.value);
+        } else {
+            square.classList.toggle("shine");
+        }
     };
 
     // declare an array for all the timeOuts
@@ -179,7 +237,7 @@ const Canvas = (function () {
         });
     };
 
-    return { info, generate, clear, resize, adapt_pixels };
+    return { info, generate, drawing_styles, clear, resize, adapt_pixels };
 })();
 
 export { Canvas };
