@@ -1,4 +1,5 @@
 import { DOM_el } from "./DOM_el";
+import { Options } from "./Options";
 
 const Canvas = (function () {
     const info = () => {
@@ -72,39 +73,11 @@ const Canvas = (function () {
         draw();
     };
 
-    const drawing_styles = {
-        color: (function () {
-            let value = "#5f9ea0";
-
-            return {
-                get value() {
-                    return value;
-                },
-                set value(new_value) {
-                    value = new_value;
-                },
-
-                get config() {
-                    return (pixel) =>
-                        pixel.style.setProperty(
-                            "--bg_color",
-                            value.toLowerCase(),
-                        );
-                },
-            };
-        })(),
-        rainbow: "",
-        gray: "",
-        random: "",
-    };
-
-    let current_style = ["color"];
-
     // Attach event listeners and change the style of each div inside the canvas
     const draw = () => {
         DOM_el.grid_items().forEach((g_item) => {
             g_item.addEventListener("mouseover", (e) =>
-                change_color(e.target, drawing_styles[current_style[0]]),
+                Options.change_color(e.target),
             );
         });
     };
@@ -113,44 +86,6 @@ const Canvas = (function () {
     const purge_all_children = (parent) => {
         while (parent.firstChild) {
             parent.removeChild(parent.firstChild);
-        }
-    };
-
-    const hex_to_rgb = (hex) => {
-        var bigint = parseInt(hex, 16);
-        var r = (bigint >> 16) & 255;
-        var g = (bigint >> 8) & 255;
-        var b = bigint & 255;
-
-        return [r, g, b].join();
-    };
-
-    const rgba_2_hex = (rgba) =>
-        `#${rgba
-            .match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/)
-            .slice(1)
-            .map((n, i) =>
-                (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n))
-                    .toString(16)
-                    .padStart(2, "0")
-                    .replace("NaN", ""),
-            )
-            .join("")}`;
-
-    // Changes the color of the divs by adding a class to it
-    const change_color = (square, style) => {
-        const details = getComputedStyle(square);
-
-        const bg = rgba_2_hex(details.getPropertyValue("background-color"));
-
-        style.config(square);
-
-        if (square.classList.contains("shine") && bg === style.value) {
-            square.classList.toggle("shine");
-        } else if (square.classList.contains("shine") && bg !== style.value) {
-            square.style.setProperty("--bg_color", style.value);
-        } else {
-            square.classList.toggle("shine");
         }
     };
 
@@ -237,7 +172,7 @@ const Canvas = (function () {
         });
     };
 
-    return { info, generate, drawing_styles, clear, resize, adapt_pixels };
+    return { info, generate, clear, resize, adapt_pixels };
 })();
 
 export { Canvas };
