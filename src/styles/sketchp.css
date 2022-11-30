@@ -11,6 +11,7 @@
 
 body {
     background-color: white;
+    position: relative;
 }
 
 button {
@@ -46,8 +47,9 @@ button {
     position: absolute;
     right: 0;
     top: 0;
+    bottom: 0;
 
-    min-height: 100%;
+    min-height: 100vh;
 
     max-width: 0;
 
@@ -99,6 +101,14 @@ button {
 
 .option.rainbow {
     animation: rainbow 2s infinite;
+}
+
+#color_picker {
+    display: none;
+}
+
+.select_color {
+    cursor: pointer;
 }
 
 /* Navbar ends here */
@@ -171,7 +181,7 @@ button {
 /* Sizing input ends here */
 
 .shine {
-    background: cadetblue;
+    background: var(--bg_color);
 }
 
 @media (min-width: 40em) {

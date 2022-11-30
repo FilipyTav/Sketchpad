@@ -25,13 +25,20 @@ const DOM_el = (function () {
         const open_btn = document.querySelector("button.open_options");
         const close_btn = container.querySelector("button.close");
 
+        const color_picker = container.querySelector("#color_picker");
+
         return {
             container,
             items,
             open_btn,
             close_btn,
+            color_picker,
         };
     })();
+
+    const shining = () => {
+        return canvas.querySelectorAll(".shining");
+    };
 
     return {
         canvas,
@@ -42,6 +49,7 @@ const DOM_el = (function () {
         sizing_output,
         new_el,
         options,
+        shining,
     };
 })();
 

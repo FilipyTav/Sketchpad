@@ -23,16 +23,20 @@ const Canvas = (function () {
         const items_per_column = DOM_el.sizing_output.value;
 
         const adapt = (el) => {
-            el.setAttribute(
-                "style",
-                `height: ${
+            el.style.setProperty(
+                "height",
+                `${
                     (height - parseInt(style.borderTopWidth) * 2) /
                     items_per_column
-                }px;
-             width: ${
-                 (width - parseInt(style.borderLeftWidth) * 2) /
-                 items_per_column
-             }px`,
+                }px`,
+            );
+
+            el.style.setProperty(
+                "width",
+                `${
+                    (width - parseInt(style.borderLeftWidth) * 2) /
+                    items_per_column
+                }px`,
             );
         };
 
@@ -66,10 +70,16 @@ const Canvas = (function () {
         draw();
     };
 
+    const drawing_styles = { color: "", rainbow: "", gray: "", random: "" };
+
+    let current_style = ["color"];
+
     // Attach event listeners and change the style of each div inside the canvas
     const draw = () => {
         DOM_el.grid_items().forEach((g_item) => {
-            g_item.addEventListener("mouseover", change_color);
+            g_item.addEventListener("mouseover", (e) =>
+                change_color(e.target, drawing_styles[current_style[0]]),
+            );
         });
     };
 
@@ -81,8 +91,9 @@ const Canvas = (function () {
     };
 
     // Changes the color of the divs by adding a class to it
-    const change_color = (square) => {
-        square.target.classList.toggle("shine");
+    const change_color = (square, color) => {
+        square.classList.toggle("shine");
+        square.style.setProperty("--bg_color", color);
     };
 
     // declare an array for all the timeOuts
@@ -162,7 +173,10 @@ const Canvas = (function () {
     // Uhmm, it clears the canvas
     // by removing the class added to them when drawing
     const clear = () => {
-        DOM_el.grid_items().forEach((pixel) => pixel.classList.remove("shine"));
+        DOM_el.grid_items().forEach((pixel) => {
+            pixel.classList.remove("shine");
+            pixel.style.setProperty("--bg_color", "");
+        });
     };
 
     return { info, generate, clear, resize, adapt_pixels };
