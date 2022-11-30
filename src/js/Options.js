@@ -1,6 +1,10 @@
 import { DOM_el } from "./DOM_el";
 
 const Options = (function () {
+    const random_color = () => {
+        return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
+    };
+
     const drawing_styles = {
         color: (function () {
             let value = "#5f9ea0";
@@ -14,17 +18,51 @@ const Options = (function () {
                 },
 
                 get config() {
-                    return (pixel) =>
+                    return (pixel, current_color) => {
                         pixel.style.setProperty(
                             "--bg_color",
                             value.toLowerCase(),
                         );
+
+                        if (
+                            pixel.classList.contains("shine") &&
+                            current_color === value
+                        ) {
+                            pixel.classList.toggle("shine");
+                        } else if (
+                            pixel.classList.contains("shine") &&
+                            current_color !== value
+                        ) {
+                            pixel.style.setProperty("--bg_color", value);
+                        } else {
+                            pixel.classList.toggle("shine");
+                        }
+                    };
                 },
             };
         })(),
         rainbow: "",
         gray: "",
-        random: "",
+        random: (function () {
+            let value = random_color();
+
+            return {
+                get value() {
+                    return value;
+                },
+
+                get config() {
+                    return (pixel) => {
+                        pixel.style.setProperty(
+                            "--bg_color",
+                            random_color().toLowerCase(),
+                        );
+
+                        pixel.classList.toggle("shine");
+                    };
+                },
+            };
+        })(),
     };
 
     let current_style = ["color"];
@@ -34,19 +72,11 @@ const Options = (function () {
         const details = getComputedStyle(square);
         const style = drawing_styles[current_style[0]];
 
-        const bg = color_conversions.rgba_2_hex(
+        const current_bg = color_conversions.rgba_2_hex(
             details.getPropertyValue("background-color"),
         );
 
-        style.config(square);
-
-        if (square.classList.contains("shine") && bg === style.value) {
-            square.classList.toggle("shine");
-        } else if (square.classList.contains("shine") && bg !== style.value) {
-            square.style.setProperty("--bg_color", style.value);
-        } else {
-            square.classList.toggle("shine");
-        }
+        style.config(square, current_bg);
     };
 
     const color_conversions = (function () {
@@ -80,18 +110,23 @@ const Options = (function () {
     })();
 
     const attach_listeners = (function () {
-        DOM_el.options.close_btn.addEventListener("click", (e) => {
+        DOM_el.options.close_btn.addEventListener("click", () => {
             DOM_el.options.container.classList.remove("active");
         });
 
-        DOM_el.options.open_btn.addEventListener("click", (e) => {
+        DOM_el.options.open_btn.addEventListener("click", () => {
             DOM_el.options.container.classList.add("active");
         });
 
         DOM_el.options.color_picker.addEventListener("input", (e) => {
+            current_style[0] = "color";
             const chosen_color = e.target.value;
 
             drawing_styles["color"]["value"] = chosen_color;
+        });
+
+        DOM_el.options.random.addEventListener("click", () => {
+            current_style[0] = "random";
         });
     })();
 

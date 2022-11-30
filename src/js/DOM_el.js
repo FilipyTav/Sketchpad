@@ -26,6 +26,7 @@ const DOM_el = (function () {
         const close_btn = container.querySelector("button.close");
 
         const color_picker = container.querySelector("#color_picker");
+        const random = container.querySelector(".random");
 
         return {
             container,
@@ -33,6 +34,7 @@ const DOM_el = (function () {
             open_btn,
             close_btn,
             color_picker,
+            random,
         };
     })();
 
