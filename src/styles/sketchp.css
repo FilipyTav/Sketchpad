@@ -1,3 +1,7 @@
+:root {
+    --clr_default: white;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -36,12 +40,13 @@ button {
 }
 
 .options {
-    background: #888;
+    background: black;
+    box-shadow: -4px 0 10px black;
+
     position: absolute;
     right: 0;
     top: 0;
 
-    /* min-width: 40vw; */
     min-height: 100%;
 
     max-width: 0;
@@ -66,8 +71,34 @@ button {
     width: 50px;
 }
 
+.header .close {
+    color: var(--clr_default);
+    filter: drop-shadow(3px 3px 5px white);
+}
+
 .options .option {
     margin: 0 15vw;
+    padding: 0.5rem 1rem;
+
+    font-size: 1rem;
+
+    color: var(--clr_default);
+    border: var(--clr_default) 0.125rem solid;
+    box-shadow: inset 0 0 0.5rem 0 var(--clr_default),
+        0 0 0.5em 2px var(--clr_default);
+
+    transition: box-shadow 0.3s ease-in;
+}
+
+.option:hover {
+    background-color: var(--clr_default);
+    color: black;
+
+    box-shadow: inset 0 0 5rem 10px var(--clr_default);
+}
+
+.option.rainbow {
+    animation: rainbow 2s infinite;
 }
 
 /* Navbar ends here */
@@ -147,5 +178,33 @@ button {
     .canvas {
         height: 90vh;
         width: 90vh;
+    }
+
+    .options .option {
+        margin: 0 10vw;
+    }
+}
+
+@keyframes rainbow {
+    0% {
+        text-shadow: #48abe0 0 0 10px;
+
+        box-shadow: inset 0 0 0.5rem 0 #48abe0, 0 0 0.5rem 2px #48abe0;
+    }
+    50% {
+        text-shadow: blueviolet 0 0 10px;
+
+        box-shadow: inset 0 0 0.5rem 0 blueviolet, 0 0 0.5rem 2px blueviolet;
+    }
+    75% {
+        text-shadow: rebeccapurple 0 0 10px;
+
+        box-shadow: inset 0 0 0.5rem 0 rebeccapurple,
+            0 0 0.5rem 2px rebeccapurple;
+    }
+    100% {
+        text-shadow: #48abe0 0 0 10px;
+
+        box-shadow: inset 0 0 0.5rem 0 #48abe0, 0 0 0.5rem 2px #48abe0;
     }
 }
