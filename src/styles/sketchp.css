@@ -26,26 +26,66 @@ input[type="color"] {
 
 /* Navbar starts here */
 
-.header {
+nav.header {
     display: flex;
     justify-content: space-around;
     align-items: center;
     min-height: 50px;
+
+    background: #000;
+
+    padding: 1rem 0;
+
+    box-shadow: 0 4px 10px black;
 }
 
 .btn {
-    background: rgb(38, 148, 211);
     padding: 8px 24px;
     border: none;
     border-radius: 10px;
+
+    font-size: 1rem;
+
+    color: var(--clr_default);
+    border: var(--clr_default) 0.125rem solid;
+    box-shadow: inset 0 0 0.5rem 0 var(--clr_default),
+        0 0 0.5em 2px var(--clr_default);
+
+    position: relative;
 }
 
 .btn:hover {
     cursor: pointer;
 }
 
+.btn:hover::before {
+    max-width: 10vw;
+    margin: 0 0;
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.8rem;
+
+    margin: 0 100%;
+
+    height: 0.2rem;
+
+    max-width: 0;
+    transition: max-width 0.5s ease, margin 0.7s ease;
+
+    background: white;
+
+    box-shadow: inset 0 0 0.5rem 0 var(--clr_default),
+        0 0 0.5em 0.5px var(--clr_default);
+}
+
 .eraser.active {
-    background: purple;
+    background: var(--clr_default);
+    color: #000;
 }
 
 .change_bg {
@@ -107,9 +147,6 @@ input[type="color"] {
 .header .open_options,
 .header .close {
     width: 50px;
-}
-
-.header .close {
     color: var(--clr_default);
     filter: drop-shadow(3px 3px 5px white);
 }
@@ -176,6 +213,8 @@ input[type="color"] {
 
     flex-flow: column nowrap;
     gap: 1rem;
+
+    margin-top: 1rem;
 }
 
 .center {
