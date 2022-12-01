@@ -54,19 +54,21 @@ const Options = (function () {
                             value.toLowerCase(),
                         );
 
-                        if (
-                            pixel.classList.contains("shine") &&
-                            current_color === value
-                        ) {
-                            pixel.classList.toggle("shine");
-                        } else if (
-                            pixel.classList.contains("shine") &&
-                            current_color !== value
-                        ) {
-                            pixel.style.setProperty("--bg_color", value);
-                        } else {
-                            pixel.classList.toggle("shine");
-                        }
+                        // if (
+                        //     pixel.classList.contains("shine") &&
+                        //     current_color === value
+                        // ) {
+                        //     pixel.classList.toggle("shine");
+                        // } else if (
+                        //     pixel.classList.contains("shine") &&
+                        //     current_color !== value
+                        // ) {
+                        //     pixel.style.setProperty("--bg_color", value);
+                        // } else {
+                        //     pixel.classList.toggle("shine");
+                        // }
+
+                        pixel.classList.add("shine");
                     };
                 },
             };
@@ -104,7 +106,7 @@ const Options = (function () {
                             "background 1s ease-in-out",
                         );
 
-                        pixel.classList.toggle("shine");
+                        pixel.classList.add("shine");
 
                         const id = setInterval(() => {
                             pixel.style.setProperty(
@@ -141,7 +143,7 @@ const Options = (function () {
 
                         value = `rgba(${luminosity}, ${luminosity}, ${luminosity})`;
 
-                        pixel.classList.toggle("shine");
+                        pixel.classList.add("shine");
                     };
                 },
             };
@@ -162,7 +164,7 @@ const Options = (function () {
                             random_color().toLowerCase(),
                         );
 
-                        pixel.classList.toggle("shine");
+                        pixel.classList.add("shine");
                     };
                 },
             };

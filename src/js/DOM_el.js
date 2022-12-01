@@ -14,7 +14,6 @@ const DOM_el = (function () {
 
         const buttons = {
             clear: container.querySelector(".clear"),
-            shine_type: container.querySelector(".shine_type"),
             eraser: container.querySelector(".eraser"),
             interaction: container.querySelector(".interaction"),
         };
