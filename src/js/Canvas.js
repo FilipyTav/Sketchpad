@@ -1,4 +1,5 @@
 import { DOM_el } from "./DOM_el";
+import { Navbar } from "./Navbar";
 import { Options } from "./Options";
 
 const Canvas = (function () {
@@ -21,7 +22,7 @@ const Canvas = (function () {
 
     // Changes the size of each pixel according to the screen size
     const adapt_pixels = (element, { height, width, style }) => {
-        const items_per_column = DOM_el.sizing_output.value;
+        const items_per_column = DOM_el.options.sizing_output.value;
 
         const adapt = (el) => {
             el.style.setProperty(
@@ -70,16 +71,7 @@ const Canvas = (function () {
             `grid-template-columns: repeat(${items_per_column}, 1fr)`,
         );
 
-        draw();
-    };
-
-    // Attach event listeners and change the style of each div inside the canvas
-    const draw = () => {
-        DOM_el.grid_items().forEach((g_item) => {
-            g_item.addEventListener("mouseover", (e) =>
-                Options.change_color(e.target),
-            );
-        });
+        Navbar.interaction_types[Navbar.current_type[0]].config.add();
     };
 
     // Removes all children from a parent
@@ -104,10 +96,10 @@ const Canvas = (function () {
         if (resize_time_outs["unique_id"]) clear_resize_tm_ot();
 
         // Changes the output to display the selected value
-        DOM_el.sizing_output.value = DOM_el.sizing_input.value;
+        DOM_el.options.sizing_output.value = DOM_el.options.sizing_input.value;
 
         const activate = () => {
-            let squares_per_side = DOM_el.sizing_input.value;
+            let squares_per_side = DOM_el.options.sizing_input.value;
 
             switch (check_if_valid_number(squares_per_side, 1, 100)) {
                 case true:
@@ -133,7 +125,7 @@ const Canvas = (function () {
             squares_per_side = Number(squares_per_side);
 
             // Creates a new, resized canvas
-            Canvas.generate(squares_per_side ** 2);
+            generate(squares_per_side ** 2);
         };
 
         resize_time_outs["unique_id"] = setTimeout(() => {

@@ -5,13 +5,8 @@ const Options = (function () {
         return "#" + ((Math.random() * 0xffffff) << 0).toString(16);
     };
 
-    // Returns a random interger between min (inclusive) and max (exclusive)
-    const random_int = (min, max) => {
-        return Math.round(Math.random() * (max - min) + min);
-    };
-
     const color_conversions = (function () {
-        const hex_to_rgb = (hex) => {
+        const hex_2_rgb = (hex) => {
             var bigint = parseInt(hex, 16);
             var r = (bigint >> 16) & 255;
             var g = (bigint >> 8) & 255;
@@ -35,7 +30,7 @@ const Options = (function () {
                 .join("")}`;
 
         return {
-            hex_to_rgb,
+            hex_2_rgb,
             rgba_2_hex,
         };
     })();
@@ -177,7 +172,8 @@ const Options = (function () {
     let current_style = ["color"];
 
     // Changes the color of the divs by adding a class to it
-    const change_color = (square) => {
+    const change_color = (e) => {
+        const square = e.target;
         const details = getComputedStyle(square);
         const style = drawing_styles[current_style[0]];
 
@@ -189,30 +185,33 @@ const Options = (function () {
     };
 
     const attach_listeners = (function () {
-        DOM_el.options.close_btn.addEventListener("click", () => {
+        const { close_btn, open_btn, color_picker, random, gray, rainbow } =
+            DOM_el.options;
+
+        close_btn.addEventListener("click", () => {
             DOM_el.options.container.classList.remove("active");
         });
 
-        DOM_el.options.open_btn.addEventListener("click", () => {
+        open_btn.addEventListener("click", () => {
             DOM_el.options.container.classList.add("active");
         });
 
-        DOM_el.options.color_picker.addEventListener("input", (e) => {
+        color_picker.addEventListener("input", (e) => {
             current_style[0] = "color";
             const chosen_color = e.target.value;
 
             drawing_styles["color"]["value"] = chosen_color;
         });
 
-        DOM_el.options.random.addEventListener("click", () => {
+        random.addEventListener("click", () => {
             current_style[0] = "random";
         });
 
-        DOM_el.options.gray.addEventListener("click", () => {
+        gray.addEventListener("click", () => {
             current_style[0] = "gray";
         });
 
-        DOM_el.options.rainbow.addEventListener("click", () => {
+        rainbow.addEventListener("click", () => {
             current_style[0] = "rainbow";
         });
     })();
