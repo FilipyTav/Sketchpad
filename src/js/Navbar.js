@@ -3,7 +3,54 @@ import { DOM_el } from "./DOM_el";
 import { Options } from "./Options";
 
 const Navbar = (function () {
-    const { clear, interaction } = DOM_el.nav.buttons;
+    const { clear, interaction, eraser } = DOM_el.nav.buttons;
+
+    const remove_shine = (e) => {
+        const element = e.target;
+        if (element === DOM_el.canvas) return;
+
+        element.classList.remove("shine");
+    };
+
+    const modes = {
+        eraser: {
+            type: "eraser",
+
+            config: {
+                add: () => {
+                    const type = interaction_types[current_type[0]];
+
+                    type.config.clear();
+
+                    DOM_el.canvas.classList.add("erasing");
+
+                    DOM_el.canvas.addEventListener(
+                        type.technical_name,
+                        remove_shine,
+                    );
+                },
+                clear: () => {
+                    const type = interaction_types[current_type[0]];
+
+                    type.config.clear();
+
+                    DOM_el.canvas.classList.remove("erasing");
+
+                    DOM_el.canvas.removeEventListener(
+                        type.technical_name,
+                        remove_shine,
+                    );
+
+                    type.config.add();
+                },
+            },
+        },
+        pixel: {
+            type: "pixel",
+        },
+    };
+
+    let current_mode = ["pixel"];
 
     const interaction_types = {
         click: {
@@ -67,7 +114,25 @@ const Navbar = (function () {
 
         DOM_el.options.sizing_input.addEventListener("input", Canvas.resize);
 
+        eraser.addEventListener("click", () => {
+            eraser.classList.toggle("active");
+
+            switch (current_mode[0]) {
+                case "pixel":
+                    current_mode[0] = "eraser";
+                    modes.eraser.config.add();
+                    break;
+
+                case "eraser":
+                    current_mode[0] = "pixel";
+                    modes.eraser.config.clear();
+                    break;
+            }
+        });
+
         interaction.addEventListener("click", () => {
+            if (current_mode[0] === "eraser") modes.eraser.config.clear();
+
             const current = interaction.textContent.toLowerCase();
 
             const type = interaction_types[current];
@@ -93,6 +158,8 @@ const Navbar = (function () {
                 interaction_types[interaction.textContent.toLowerCase()];
 
             next_type.config.add();
+
+            if (current_mode[0] === "eraser") modes.eraser.config.add();
         });
     };
 
