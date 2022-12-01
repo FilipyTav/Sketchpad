@@ -58,11 +58,6 @@ nav.header {
     cursor: pointer;
 }
 
-.btn:hover::before {
-    max-width: 10vw;
-    margin: 0 0;
-}
-
 .btn::before {
     content: "";
     position: absolute;
@@ -83,23 +78,27 @@ nav.header {
         0 0 0.5em 0.5px var(--clr_default);
 }
 
+.btn:hover::before {
+    max-width: 10vw;
+    margin: 0 0;
+}
+
 .eraser.active {
     background: var(--clr_default);
     color: #000;
 }
 
-.change_bg {
+.side_btn {
     background: black;
     font-weight: bold;
 
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2rem 0.5rem 1rem;
     border-radius: 5px;
 
     position: absolute;
     left: 0;
-    bottom: 50%;
 
-    transform: translate(-92%, -50%);
+    transform: translateX(-89%);
 
     font-size: 1rem;
 
@@ -111,8 +110,12 @@ nav.header {
     transition: transform 0.5s ease-in;
 }
 
-.change_bg:hover {
-    transform: translate(-5%, -50%);
+.change_bg {
+    top: 30%;
+}
+
+.side_btn:hover {
+    transform: translateX(-5%);
     cursor: pointer;
 }
 
@@ -184,6 +187,17 @@ nav.header {
 
 /* Canvas starts here */
 
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-flow: column nowrap;
+    gap: 1rem;
+
+    margin-top: 1rem;
+}
+
 .canvas {
     height: 90vw;
     width: 90vw;
@@ -206,17 +220,6 @@ nav.header {
     height: 1px;
 }
 
-.main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    flex-flow: column nowrap;
-    gap: 1rem;
-
-    margin-top: 1rem;
-}
-
 .center {
     display: flex;
     justify-content: center;
@@ -234,6 +237,8 @@ nav.header {
     display: flex;
     flex-flow: column nowrap;
     gap: 0.3rem;
+
+    bottom: 30%;
 }
 
 .sizing label {
