@@ -20,6 +20,10 @@ button {
     cursor: pointer;
 }
 
+input[type="color"] {
+    display: none;
+}
+
 /* Navbar starts here */
 
 .header {
@@ -42,6 +46,34 @@ button {
 
 .eraser.active {
     background: purple;
+}
+
+.change_bg {
+    background: black;
+    font-weight: bold;
+
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+
+    position: absolute;
+    left: 0;
+    bottom: 50%;
+
+    transform: translate(-92%, -50%);
+
+    font-size: 1rem;
+
+    color: var(--clr_default);
+    border: var(--clr_default) 0.125rem solid;
+    box-shadow: inset 0 0 0.5rem 0 var(--clr_default),
+        0 0 0.5em 2px var(--clr_default);
+
+    transition: transform 0.5s ease-in;
+}
+
+.change_bg:hover {
+    transform: translate(-5%, -50%);
+    cursor: pointer;
 }
 
 .options {
@@ -105,10 +137,6 @@ button {
 
 .option.rainbow {
     animation: rainbow 2s infinite;
-}
-
-#color_picker {
-    display: none;
 }
 
 .select_color {

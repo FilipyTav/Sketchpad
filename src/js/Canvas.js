@@ -165,7 +165,7 @@ const Canvas = (function () {
             pixel.style.setProperty("--bg_color", "");
         });
 
-        Options.drawing_styles.rainbow.clear_intervals();
+        Options.drawing_styles.rainbow.clear_all_intervals();
     };
 
     return { info, generate, clear, resize, adapt_pixels };

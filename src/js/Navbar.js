@@ -3,7 +3,7 @@ import { DOM_el } from "./DOM_el";
 import { Options } from "./Options";
 
 const Navbar = (function () {
-    const { clear, interaction, eraser } = DOM_el.nav.buttons;
+    const { clear, interaction, eraser, color } = DOM_el.nav.buttons;
 
     const remove_shine = (e) => {
         const element = e.target;
@@ -162,6 +162,12 @@ const Navbar = (function () {
             next_type.config.add();
 
             if (current_mode[0] === "eraser") modes.eraser.config.add();
+        });
+
+        color.addEventListener("input", (e) => {
+            const chosen_color = e.target.value;
+
+            DOM_el.canvas.style.backgroundColor = chosen_color;
         });
     };
 

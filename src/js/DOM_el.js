@@ -16,6 +16,7 @@ const DOM_el = (function () {
             clear: container.querySelector(".clear"),
             eraser: container.querySelector(".eraser"),
             interaction: container.querySelector(".interaction"),
+            color: container.querySelector("#bg_color"),
         };
 
         return { container, buttons };

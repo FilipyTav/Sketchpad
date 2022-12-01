@@ -172,7 +172,7 @@ const Options = (function () {
         })(),
     };
 
-    let current_style = ["rainbow"];
+    let current_style = ["color"];
 
     // Changes the color of the divs by adding a class to it
     const change_color = (e) => {
