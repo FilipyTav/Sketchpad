@@ -77,7 +77,56 @@ const Options = (function () {
             };
         })(),
 
-        rainbow: "",
+        rainbow: (function () {
+            let value = random_color();
+
+            const intervals = {};
+
+            const clear_intervals = () => {
+                for (const id in intervals) {
+                    clearInterval(intervals[id]);
+                }
+
+                DOM_el.grid_items().forEach(
+                    (item) => (item.style.transition = "none"),
+                );
+            };
+
+            return {
+                get value() {
+                    return value;
+                },
+
+                get config() {
+                    return (pixel) => {
+                        pixel.style.setProperty(
+                            "--bg_color",
+                            random_color().toLowerCase(),
+                        );
+
+                        pixel.style.setProperty(
+                            "transition",
+                            "background 1s ease-in-out",
+                        );
+
+                        pixel.classList.toggle("shine");
+
+                        const id = setInterval(() => {
+                            pixel.style.setProperty(
+                                "--bg_color",
+                                random_color().toLowerCase(),
+                            );
+                        }, 1000);
+
+                        intervals[id] = id;
+                    };
+                },
+
+                get clear_intervals() {
+                    return clear_intervals;
+                },
+            };
+        })(),
 
         gray: (function () {
             let luminosity = 0;
@@ -162,9 +211,13 @@ const Options = (function () {
         DOM_el.options.gray.addEventListener("click", () => {
             current_style[0] = "gray";
         });
+
+        DOM_el.options.rainbow.addEventListener("click", () => {
+            current_style[0] = "rainbow";
+        });
     })();
 
-    return { change_color };
+    return { change_color, drawing_styles };
 })();
 
 export { Options };
