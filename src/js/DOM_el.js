@@ -27,6 +27,7 @@ const DOM_el = (function () {
 
         const color_picker = container.querySelector("#color_picker");
         const random = container.querySelector(".random");
+        const gray = container.querySelector(".gray");
 
         return {
             container,
@@ -35,6 +36,7 @@ const DOM_el = (function () {
             close_btn,
             color_picker,
             random,
+            gray,
         };
     })();
 
