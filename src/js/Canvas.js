@@ -60,6 +60,8 @@ const Canvas = (function () {
             grid_item.classList.toggle("grid_item");
             adapt_pixels(grid_item, details);
 
+            grid_item.setAttribute("data-id", i);
+
             grid_item.style.setProperty("--bg_color", "royalblue");
 
             DOM_el.canvas.appendChild(grid_item);

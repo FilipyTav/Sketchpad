@@ -9,6 +9,8 @@ const Navbar = (function () {
         const element = e.target;
         if (element === DOM_el.canvas) return;
 
+        Options.drawing_styles.rainbow.clear_interval(element);
+
         element.classList.remove("shine");
     };
 

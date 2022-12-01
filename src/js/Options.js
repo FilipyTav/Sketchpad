@@ -54,20 +54,6 @@ const Options = (function () {
                             value.toLowerCase(),
                         );
 
-                        // if (
-                        //     pixel.classList.contains("shine") &&
-                        //     current_color === value
-                        // ) {
-                        //     pixel.classList.toggle("shine");
-                        // } else if (
-                        //     pixel.classList.contains("shine") &&
-                        //     current_color !== value
-                        // ) {
-                        //     pixel.style.setProperty("--bg_color", value);
-                        // } else {
-                        //     pixel.classList.toggle("shine");
-                        // }
-
                         pixel.classList.add("shine");
                     };
                 },
@@ -79,9 +65,17 @@ const Options = (function () {
 
             const intervals = {};
 
-            const clear_intervals = () => {
-                for (const id in intervals) {
-                    clearInterval(intervals[id]);
+            const clear_interval = (el) => {
+                const id = el.getAttribute("data-id");
+
+                clearInterval(intervals[id]);
+
+                el.style.transition = "none";
+            };
+
+            const clear_all_intervals = () => {
+                for (const pixel in intervals) {
+                    clearInterval(intervals[pixel]);
                 }
 
                 DOM_el.grid_items().forEach(
@@ -115,13 +109,20 @@ const Options = (function () {
                             );
                         }, 1000);
 
-                        intervals[id] = id;
+                        const pixel_id = pixel.getAttribute("data-id");
+
+                        if (intervals[pixel_id])
+                            clearTimeout(intervals[pixel_id]);
+
+                        intervals[pixel_id] = id;
                     };
                 },
 
-                get clear_intervals() {
-                    return clear_intervals;
+                get clear_all_intervals() {
+                    return clear_all_intervals;
                 },
+
+                clear_interval,
             };
         })(),
 
@@ -171,7 +172,7 @@ const Options = (function () {
         })(),
     };
 
-    let current_style = ["color"];
+    let current_style = ["rainbow"];
 
     // Changes the color of the divs by adding a class to it
     const change_color = (e) => {
