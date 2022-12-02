@@ -114,6 +114,10 @@ nav.header {
     top: 30%;
 }
 
+.download {
+    bottom: 50%;
+}
+
 .side_btn:hover {
     transform: translateX(-5%);
     cursor: pointer;
