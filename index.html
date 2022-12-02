@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="./main.js" defer></script>
+        <title>Sketchpad</title>
+    </head>
+    <body>
+        <nav class="header">
+            <label class="change_bg side_btn" for="bg_color"
+                >Change background</label
+            >
+
+            <input type="color" name="" id="bg_color" />
+
+            <div class="download side_btn">Download image</div>
+
+            <button class="btn clear">Clear</button>
+
+            <button class="btn eraser">Eraser</button>
+
+            <button class="btn interaction"></button>
+
+            <button class="open_options">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5"
+                    />
+                </svg>
+            </button>
+
+            <div class="options">
+                <button class="close">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5"
+                        />
+                    </svg>
+                </button>
+
+                <label class="option select_color" for="color_picker"
+                    >Color</label
+                >
+                <button class="option rainbow">Rainbow</button>
+                <button class="option gray">Gray</button>
+                <button class="option random">Random</button>
+
+                <input type="color" id="color_picker" />
+            </div>
+        </nav>
+
+        <section class="main">
+            <div class="center">
+                <div class="canvas"></div>
+            </div>
+
+            <div class="sizing side_btn">
+                <label for="input_squares">Squares per side: </label>
+                <div class="io">
+                    <input
+                        type="range"
+                        name="squares"
+                        min="1"
+                        max="100"
+                        value="16"
+                        class="sizing_input"
+                        id="input_squares"
+                        list="sizes"
+                    />
+                    <output class="sizing_output">16</output>
+                </div>
+
+                <datalist id="sizes">
+                    <option value="1" label="1"></option>
+                    <!-- <option value="25" label="25"></option> -->
+                    <option value="50" label="50"></option>
+                    <!-- <option value="75" label="75"></option> -->
+                    <option value="100" label="100"></option>
+                </datalist>
+            </div>
+        </section>
+    </body>
+</html>
