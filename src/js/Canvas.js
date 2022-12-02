@@ -3,6 +3,7 @@ import { Navbar } from "./Navbar";
 import { Options } from "./Options";
 
 const Canvas = (function () {
+    // Data concerning the canvas at the moment
     const info = () => {
         const canv_rect = DOM_el.canvas.getBoundingClientRect();
 
@@ -24,6 +25,8 @@ const Canvas = (function () {
     const adapt_pixels = (element, { height, width, style }) => {
         const items_per_column = DOM_el.options.sizing_output.value;
 
+        // Modifies the height and width values accordingly
+        // accounts for the border size, because border-box
         const adapt = (el) => {
             el.style.setProperty(
                 "height",
@@ -42,6 +45,8 @@ const Canvas = (function () {
             );
         };
 
+        // If one element is specified, changes only it
+        // Otherwise, all of them
         element
             ? adapt(element)
             : DOM_el.grid_items().forEach((item) => adapt(item));
@@ -60,6 +65,7 @@ const Canvas = (function () {
             grid_item.classList.toggle("grid_item");
             adapt_pixels(grid_item, details);
 
+            // Id for managing  intervals
             grid_item.setAttribute("data-id", i);
 
             grid_item.style.setProperty("--bg_color", "royalblue");
@@ -73,6 +79,7 @@ const Canvas = (function () {
             `grid-template-columns: repeat(${items_per_column}, 1fr)`,
         );
 
+        // Activates functionality for the current type of interaction
         Navbar.interaction_types[Navbar.current_type[0]].config.add();
     };
 
@@ -83,10 +90,10 @@ const Canvas = (function () {
         }
     };
 
-    // declare an array for all the timeOuts
+    // An array for all the time_outs
     const resize_time_outs = {};
 
-    // to clear them all, just call this
+    // Clear them all
     const clear_resize_tm_ot = () => {
         for (const id in resize_time_outs) {
             clearTimeout(resize_time_outs[id]);
@@ -95,6 +102,7 @@ const Canvas = (function () {
 
     // Resizes canvas based on user input
     const resize = () => {
+        // If there's already a time_out set, remove it
         if (resize_time_outs["unique_id"]) clear_resize_tm_ot();
 
         // Changes the output to display the selected value
@@ -130,6 +138,7 @@ const Canvas = (function () {
             generate(squares_per_side ** 2);
         };
 
+        // A time out for each type the input is changed
         resize_time_outs["unique_id"] = setTimeout(() => {
             activate();
         }, 1000);

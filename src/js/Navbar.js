@@ -5,32 +5,41 @@ import { Options } from "./Options";
 const Navbar = (function () {
     const { clear, interaction, eraser, color } = DOM_el.nav.buttons;
 
+    // Removes any alteration previously made to the pixel
     const remove_shine = (e) => {
         const element = e.target;
         if (element === DOM_el.canvas) return;
 
+        // Removes the interval related to this pixel, in case there is one
         Options.drawing_styles.rainbow.clear_interval(element);
 
         element.classList.remove("shine");
     };
 
+    // The 'brush' modes
     const modes = {
+        // Removes style from a pixel
         eraser: {
             type: "eraser",
 
             config: {
+                // Activates the eraser
                 add: () => {
                     const type = interaction_types[current_type[0]];
 
+                    // Remove everything related to the current drawing style
                     type.config.clear();
 
                     DOM_el.canvas.classList.add("erasing");
 
+                    // Attaches listener for erasing
                     DOM_el.canvas.addEventListener(
                         type.technical_name,
                         remove_shine,
                     );
                 },
+
+                // Cancles the eraser
                 clear: () => {
                     const type = interaction_types[current_type[0]];
 
@@ -47,14 +56,19 @@ const Navbar = (function () {
                 },
             },
         },
+
+        // Adds style from a pixel
         pixel: {
             type: "pixel",
         },
     };
 
-    let current_mode = ["pixel"];
+    // 'Brush' mode being used at the moment
+    const current_mode = ["pixel"];
 
+    // Ways the user can interact with a pixel
     const interaction_types = {
+        // By clicking
         click: {
             id: 0,
 
@@ -74,6 +88,8 @@ const Navbar = (function () {
                 },
             },
         },
+
+        // By just passing the mouse over it
         hover: {
             id: 1,
 
@@ -101,8 +117,10 @@ const Navbar = (function () {
         },
     };
 
-    let current_type = ["click"];
+    // Interaction type currently being used
+    const current_type = ["click"];
 
+    // Changes the text to match with the current type
     const set_interaction_text = () => {
         interaction.textContent =
             current_type[0].charAt(0).toUpperCase() + current_type[0].slice(1);
@@ -112,11 +130,14 @@ const Navbar = (function () {
 
     // Adds functionality to the top buttons
     const manage_buttons = () => {
+        // Removes styling from all the pixels
         clear.addEventListener("click", Canvas.clear);
 
+        // Changes the amount of pixels in the canvas
         DOM_el.options.sizing_input.addEventListener("input", Canvas.resize);
 
         eraser.addEventListener("click", () => {
+            // Activates eraser
             eraser.classList.toggle("active");
 
             switch (current_mode[0]) {
@@ -133,18 +154,22 @@ const Navbar = (function () {
         });
 
         interaction.addEventListener("click", () => {
+            // For handling type changing while in eraser mode
             if (current_mode[0] === "eraser") modes.eraser.config.clear();
 
             const current = interaction.textContent.toLowerCase();
 
             const type = interaction_types[current];
 
+            // Removes everything related to the previously used type
             type.config.clear();
 
             const index = type.id;
 
+            // Id of the next type on the obj
             const next_id = (index + 1) % Object.keys(interaction_types).length;
 
+            // Gets the next type and modifies the current_type variable accordingly
             for (const interaction in interaction_types) {
                 const id = interaction_types[interaction].id;
 
@@ -156,9 +181,11 @@ const Navbar = (function () {
 
             set_interaction_text();
 
+            // The type to be used now
             const next_type =
                 interaction_types[interaction.textContent.toLowerCase()];
 
+            // Activates it
             next_type.config.add();
 
             if (current_mode[0] === "eraser") modes.eraser.config.add();

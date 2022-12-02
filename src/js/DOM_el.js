@@ -1,3 +1,4 @@
+// All the necessary DOM elements
 const DOM_el = (function () {
     const canvas = document.querySelector(".canvas");
 
@@ -6,7 +7,7 @@ const DOM_el = (function () {
     };
 
     const first_grid_item = () => {
-        return document.querySelector(".grid_item");
+        return canvas.querySelector(".grid_item");
     };
 
     const nav = (function () {
@@ -26,6 +27,7 @@ const DOM_el = (function () {
         return document.createElement(element);
     };
 
+    // Related to the options sidebar
     const options = (function () {
         const container = document.querySelector(".options");
 
