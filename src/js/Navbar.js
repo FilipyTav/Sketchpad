@@ -2,8 +2,10 @@ import { Canvas } from "./Canvas";
 import { DOM_el } from "./DOM_el";
 import { Options } from "./Options";
 
+import html2canvas from "html2canvas";
+
 const Navbar = (function () {
-    const { clear, interaction, eraser, color } = DOM_el.nav.buttons;
+    const { clear, interaction, eraser, color, download } = DOM_el.nav.buttons;
 
     // Removes any alteration previously made to the pixel
     const remove_shine = (e) => {
@@ -128,6 +130,36 @@ const Navbar = (function () {
 
     set_interaction_text();
 
+    const adapt_cloned_pixels = (doc) => {
+        // Removes border from canvas
+        const canv = doc.querySelector(".canvas");
+        canv.style.border = "none";
+
+        const canv_rect = canv.getBoundingClientRect();
+
+        const { height, width } = canv_rect;
+
+        const pixels = canv.querySelectorAll(".grid_item");
+
+        const items_per_column = Number(
+            doc.querySelector(".sizing_output").value,
+        );
+
+        // Accounts for the border removal
+        const adapt = (el) => {
+            el.style.setProperty("height", `${height / items_per_column}px`);
+
+            el.style.setProperty("width", `${width / items_per_column}px`);
+
+            el.style.padding = 0;
+            el.style.margin = 0;
+        };
+
+        pixels.forEach((pixel) => {
+            adapt(pixel);
+        });
+    };
+
     // Adds functionality to the top buttons
     const manage_buttons = () => {
         // Removes styling from all the pixels
@@ -195,6 +227,25 @@ const Navbar = (function () {
             const chosen_color = e.target.value;
 
             DOM_el.canvas.style.backgroundColor = chosen_color;
+        });
+
+        download.addEventListener("click", async () => {
+            // Clones the hole DOM body and changes the style of the cloned canvas
+            // TODO: figure out how to remove the blank space between pixels
+            const canvas = await html2canvas(DOM_el.canvas, {
+                onclone: (doc) => {
+                    adapt_cloned_pixels(doc);
+                },
+            });
+
+            const base64 = canvas.toDataURL("image/jpeg");
+
+            const a = document.createElement("a");
+            a.href = base64;
+
+            // Default file name
+            a.download = "sketchpad-art.png";
+            a.click();
         });
     };
 

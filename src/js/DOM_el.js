@@ -18,6 +18,7 @@ const DOM_el = (function () {
             eraser: container.querySelector(".eraser"),
             interaction: container.querySelector(".interaction"),
             color: container.querySelector("#bg_color"),
+            download: container.querySelector(".download.side_btn"),
         };
 
         return { container, buttons };
