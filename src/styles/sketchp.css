@@ -170,9 +170,49 @@ nav.header {
         0 0 0.5em 2px var(--clr_default);
 
     transition: box-shadow 0.3s ease-in;
+    text-shadow: 0 0 0 0.125em 0 var(--clr_default),
+        0 0 0 0.5em 0 var(--clr_default);
+
+    position: relative;
 }
 
-.option:hover {
+.option::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--clr_default);
+
+    transform: perspective(1em) rotateX(40deg) scale(1, 0.25);
+    filter: blur(1.5em);
+    opacity: 0.6;
+
+    pointer-events: none;
+}
+
+.option::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    left: 0;
+    right: 0;
+
+    box-shadow: 0 0 2em 0.5em var(--clr_default);
+    opacity: 0;
+}
+
+.option:hover::after,
+.option:hover::before,
+.option:focus::after,
+.option:focus::before {
+    opacity: 1;
+}
+
+.option:hover,
+.option:focus {
     background-color: var(--clr_default);
     color: black;
 
